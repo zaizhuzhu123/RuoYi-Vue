@@ -9,6 +9,7 @@ import com.ruoyi.common.core.page.PageRes;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,6 +44,7 @@ public class DemoThemeController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('demo:theme:list')")
     @PostMapping("/list")
+    @ApiOperation("主题列表")
     @ResponseBody
     public ResponseResult<PageRes<DemoTheme>> list(Integer pageNum, Integer pageSize, DemoTheme demoTheme) {
         PageRes<DemoTheme> page = demoThemeService.selectDemoThemeList(pageNum, pageSize, demoTheme);
