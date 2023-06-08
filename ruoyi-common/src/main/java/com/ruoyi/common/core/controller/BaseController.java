@@ -14,7 +14,7 @@ import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.PageDomain;
-import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.page.PageRes;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.PageUtils;
@@ -24,25 +24,21 @@ import com.ruoyi.common.utils.sql.SqlUtil;
 
 /**
  * web层通用数据处理
- * 
+ *
  * @author ruoyi
  */
-public class BaseController
-{
+public class BaseController {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
      */
     @InitBinder
-    public void initBinder(WebDataBinder binder)
-    {
+    public void initBinder(WebDataBinder binder) {
         // Date 类型转换
-        binder.registerCustomEditor(Date.class, new PropertyEditorSupport()
-        {
+        binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
             @Override
-            public void setAsText(String text)
-            {
+            public void setAsText(String text) {
                 setValue(DateUtils.parseDate(text));
             }
         });
@@ -51,19 +47,16 @@ public class BaseController
     /**
      * 设置请求分页数据
      */
-    protected void startPage()
-    {
+    protected void startPage() {
         PageUtils.startPage();
     }
 
     /**
      * 设置请求排序数据
      */
-    protected void startOrderBy()
-    {
+    protected void startOrderBy() {
         PageDomain pageDomain = TableSupport.buildPageRequest();
-        if (StringUtils.isNotEmpty(pageDomain.getOrderBy()))
-        {
+        if (StringUtils.isNotEmpty(pageDomain.getOrderBy())) {
             String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
             PageHelper.orderBy(orderBy);
         }
@@ -72,132 +65,117 @@ public class BaseController
     /**
      * 清理分页的线程变量
      */
-    protected void clearPage()
-    {
+    protected void clearPage() {
         PageUtils.clearPage();
     }
 
     /**
      * 响应请求分页数据
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected TableDataInfo getDataTable(List<?> list)
-    {
-        TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(HttpStatus.SUCCESS);
-        rspData.setMsg("查询成功");
-        rspData.setRows(list);
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    protected ResponseResult<PageRes> getDataTable(List<?> list) {
+        PageRes rspData = new PageRes();
+//        rspData.setCode(HttpStatus.SUCCESS);
+//        rspData.setMsg("查询成功");
+        rspData.setList(list);
         rspData.setTotal(new PageInfo(list).getTotal());
-        return rspData;
+        return succ(rspData);
     }
 
     /**
      * 返回成功
      */
-    public ResponseResult succ()
-    {
+    public ResponseResult succ() {
         return ResponseResult.success();
     }
 
     /**
      * 返回失败消息
      */
-    public ResponseResult error()
-    {
+    public ResponseResult error() {
         return ResponseResult.fail();
     }
 
     /**
      * 返回成功消息
      */
-    public ResponseResult succ(String message)
-    {
+    public ResponseResult succ(String message) {
         return ResponseResult.success(message);
     }
-    
+
     /**
      * 返回成功消息
      */
-    public ResponseResult succ(Object data)
-    {
+    public ResponseResult succ(Object data) {
         return ResponseResult.success(data);
     }
 
     /**
      * 返回失败消息
      */
-    public ResponseResult error(String message)
-    {
+    public ResponseResult error(String message) {
         return ResponseResult.fail(message);
     }
 
     /**
      * 返回警告消息
      */
-    public ResponseResult warn(String message)
-    {
+    public ResponseResult warn(String message) {
         return ResponseResult.warn(message);
     }
 
     /**
      * 响应返回结果
-     * 
+     *
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected ResponseResult toAjax(int rows)
-    {
+    protected ResponseResult toAjax(int rows) {
         return rows > 0 ? ResponseResult.success() : ResponseResult.fail();
     }
 
     /**
      * 响应返回结果
-     * 
+     *
      * @param result 结果
      * @return 操作结果
      */
-    protected ResponseResult toAjax(boolean result)
-    {
+    protected ResponseResult toAjax(boolean result) {
         return result ? succ() : error();
     }
 
     /**
      * 页面跳转
      */
-    public String redirect(String url)
-    {
+    public String redirect(String url) {
         return StringUtils.format("redirect:{}", url);
     }
 
     /**
      * 获取用户缓存信息
      */
-    public LoginUser getLoginUser()
-    {
+    public LoginUser getLoginUser() {
         return SecurityUtils.getLoginUser();
     }
 
     /**
      * 获取登录用户id
      */
-    public Long getUserId()
-    {
+    public Long getUserId() {
         return getLoginUser().getUserId();
     }
 
     /**
      * 获取登录部门id
      */
-    public Long getDeptId()
-    {
+    public Long getDeptId() {
         return getLoginUser().getDeptId();
     }
 
     /**
      * 获取登录用户名
      */
-    public String getUsername()
-    {
+    public String getUsername() {
         return getLoginUser().getUsername();
     }
 }

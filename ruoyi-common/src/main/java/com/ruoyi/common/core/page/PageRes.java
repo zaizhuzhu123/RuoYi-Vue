@@ -1,19 +1,21 @@
-package com.laien.demo.response;
+package com.ruoyi.common.core.page;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页结果
+ * 表格分页数据对象
  *
- * @author qmf
+ * @author ruoyi
  */
-@ApiModel(value="分页结果", description="分页结果")
+@ApiModel(value = "分页结果", description = "分页结果")
 @Data
-public class PageRes<T> {
+public class PageRes<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "第几页", required = true)
     private long pageNum;
@@ -26,7 +28,18 @@ public class PageRes<T> {
     @ApiModelProperty(value = "数据列表", required = true)
     private List<T> list;
 
-    public PageRes() {}
+
+//    /** 消息状态码 */
+//    private int code;
+//
+//    /** 消息内容 */
+//    private String msg;
+
+    /**
+     * 表格数据对象
+     */
+    public PageRes() {
+    }
 
     public PageRes(long pageNum, long pageSize, long total, long pages, List<T> list) {
         this.pageNum = pageNum;
@@ -36,4 +49,14 @@ public class PageRes<T> {
         this.list = list;
     }
 
+    /**
+     * 分页
+     *
+     * @param list  列表数据
+     * @param total 总记录数
+     */
+    public PageRes(List<T> list, int total) {
+        this.list = list;
+        this.total = total;
+    }
 }

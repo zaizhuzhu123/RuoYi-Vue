@@ -1,8 +1,8 @@
 package com.laien.demo.service;
 
-import com.laien.demo.entity.DemoTheme;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.laien.demo.response.PageRes;
+import com.laien.demo.entity.DemoTheme;
+import com.ruoyi.common.core.page.PageRes;
 
 /**
  * 主题Service接口
