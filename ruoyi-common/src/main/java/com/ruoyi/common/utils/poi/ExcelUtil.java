@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.ResponseResult;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -74,7 +76,6 @@ import com.ruoyi.common.annotation.Excel.ColumnType;
 import com.ruoyi.common.annotation.Excel.Type;
 import com.ruoyi.common.annotation.Excels;
 import com.ruoyi.common.config.RuoYiConfig;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.UtilException;
 import com.ruoyi.common.utils.DateUtils;
@@ -492,7 +493,7 @@ public class ExcelUtil<T>
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    public AjaxResult exportExcel(List<T> list, String sheetName)
+    public ResponseResult exportExcel(List<T> list, String sheetName)
     {
         return exportExcel(list, sheetName, StringUtils.EMPTY);
     }
@@ -505,7 +506,7 @@ public class ExcelUtil<T>
      * @param title 标题
      * @return 结果
      */
-    public AjaxResult exportExcel(List<T> list, String sheetName, String title)
+    public ResponseResult exportExcel(List<T> list, String sheetName, String title)
     {
         this.init(list, sheetName, title, Type.EXPORT);
         return exportExcel();
@@ -547,7 +548,7 @@ public class ExcelUtil<T>
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    public AjaxResult importTemplateExcel(String sheetName)
+    public ResponseResult importTemplateExcel(String sheetName)
     {
         return importTemplateExcel(sheetName, StringUtils.EMPTY);
     }
@@ -559,7 +560,7 @@ public class ExcelUtil<T>
      * @param title 标题
      * @return 结果
      */
-    public AjaxResult importTemplateExcel(String sheetName, String title)
+    public ResponseResult importTemplateExcel(String sheetName, String title)
     {
         this.init(null, sheetName, title, Type.IMPORT);
         return exportExcel();
@@ -618,7 +619,7 @@ public class ExcelUtil<T>
      * 
      * @return 结果
      */
-    public AjaxResult exportExcel()
+    public ResponseResult exportExcel()
     {
         OutputStream out = null;
         try
@@ -627,7 +628,7 @@ public class ExcelUtil<T>
             String filename = encodingFilename(sheetName);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
-            return AjaxResult.success(filename);
+            return ResponseResult.success(filename);
         }
         catch (Exception e)
         {

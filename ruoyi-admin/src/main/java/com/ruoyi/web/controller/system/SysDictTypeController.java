@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysDictType;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
@@ -58,9 +59,9 @@ public class SysDictTypeController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:dict:query')")
     @GetMapping(value = "/{dictId}")
-    public AjaxResult getInfo(@PathVariable Long dictId)
+    public ResponseResult getInfo(@PathVariable Long dictId)
     {
-        return success(dictTypeService.selectDictTypeById(dictId));
+        return succ(dictTypeService.selectDictTypeById(dictId));
     }
 
     /**
@@ -69,7 +70,7 @@ public class SysDictTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dict:add')")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDictType dict)
+    public ResponseResult add(@Validated @RequestBody SysDictType dict)
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
@@ -85,7 +86,7 @@ public class SysDictTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dict:edit')")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDictType dict)
+    public ResponseResult edit(@Validated @RequestBody SysDictType dict)
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
@@ -101,10 +102,10 @@ public class SysDictTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictIds}")
-    public AjaxResult remove(@PathVariable Long[] dictIds)
+    public ResponseResult remove(@PathVariable Long[] dictIds)
     {
         dictTypeService.deleteDictTypeByIds(dictIds);
-        return success();
+        return succ();
     }
 
     /**
@@ -113,19 +114,19 @@ public class SysDictTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @Log(title = "字典类型", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
-    public AjaxResult refreshCache()
+    public ResponseResult refreshCache()
     {
         dictTypeService.resetDictCache();
-        return success();
+        return succ();
     }
 
     /**
      * 获取字典选择框列表
      */
     @GetMapping("/optionselect")
-    public AjaxResult optionselect()
+    public ResponseResult optionselect()
     {
         List<SysDictType> dictTypes = dictTypeService.selectDictTypeAll();
-        return success(dictTypes);
+        return succ(dictTypes);
     }
 }

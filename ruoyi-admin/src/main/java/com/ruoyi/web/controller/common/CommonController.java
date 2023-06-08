@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
@@ -73,7 +74,7 @@ public class CommonController
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
+    public ResponseResult uploadFile(MultipartFile file) throws Exception
     {
         try
         {
@@ -82,7 +83,7 @@ public class CommonController
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
-            AjaxResult ajax = AjaxResult.success();
+            ResponseResult ajax = ResponseResult.success();
             ajax.put("url", url);
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));
@@ -91,7 +92,7 @@ public class CommonController
         }
         catch (Exception e)
         {
-            return AjaxResult.error(e.getMessage());
+            return ResponseResult.fail(e.getMessage());
         }
     }
 
@@ -99,7 +100,7 @@ public class CommonController
      * 通用上传请求（多个）
      */
     @PostMapping("/uploads")
-    public AjaxResult uploadFiles(List<MultipartFile> files) throws Exception
+    public ResponseResult uploadFiles(List<MultipartFile> files) throws Exception
     {
         try
         {
@@ -119,7 +120,7 @@ public class CommonController
                 newFileNames.add(FileUtils.getName(fileName));
                 originalFilenames.add(file.getOriginalFilename());
             }
-            AjaxResult ajax = AjaxResult.success();
+            ResponseResult ajax = ResponseResult.success();
             ajax.put("urls", StringUtils.join(urls, FILE_DELIMETER));
             ajax.put("fileNames", StringUtils.join(fileNames, FILE_DELIMETER));
             ajax.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMETER));
@@ -128,7 +129,7 @@ public class CommonController
         }
         catch (Exception e)
         {
-            return AjaxResult.error(e.getMessage());
+            return ResponseResult.fail(e.getMessage());
         }
     }
 

@@ -3,6 +3,8 @@ package com.ruoyi.common.core.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.common.core.domain.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.constant.HttpStatus;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -93,49 +94,49 @@ public class BaseController
     /**
      * 返回成功
      */
-    public AjaxResult success()
+    public ResponseResult succ()
     {
-        return AjaxResult.success();
+        return ResponseResult.success();
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error()
+    public ResponseResult error()
     {
-        return AjaxResult.error();
+        return ResponseResult.fail();
     }
 
     /**
      * 返回成功消息
      */
-    public AjaxResult success(String message)
+    public ResponseResult succ(String message)
     {
-        return AjaxResult.success(message);
+        return ResponseResult.success(message);
     }
     
     /**
      * 返回成功消息
      */
-    public AjaxResult success(Object data)
+    public ResponseResult succ(Object data)
     {
-        return AjaxResult.success(data);
+        return ResponseResult.success(data);
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message)
+    public ResponseResult error(String message)
     {
-        return AjaxResult.error(message);
+        return ResponseResult.fail(message);
     }
 
     /**
      * 返回警告消息
      */
-    public AjaxResult warn(String message)
+    public ResponseResult warn(String message)
     {
-        return AjaxResult.warn(message);
+        return ResponseResult.warn(message);
     }
 
     /**
@@ -144,9 +145,9 @@ public class BaseController
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected AjaxResult toAjax(int rows)
+    protected ResponseResult toAjax(int rows)
     {
-        return rows > 0 ? AjaxResult.success() : AjaxResult.error();
+        return rows > 0 ? ResponseResult.success() : ResponseResult.fail();
     }
 
     /**
@@ -155,9 +156,9 @@ public class BaseController
      * @param result 结果
      * @return 操作结果
      */
-    protected AjaxResult toAjax(boolean result)
+    protected ResponseResult toAjax(boolean result)
     {
-        return result ? success() : error();
+        return result ? succ() : error();
     }
 
     /**

@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
     <version>3.8.5</version>
@@ -11,7 +11,7 @@
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依管理系统</description>
-    
+
     <properties>
         <ruoyi.version>3.8.5</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,8 +30,19 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
+        <!-- 新增的依赖 -->
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <tika-core.version>1.24.1</tika-core.version>
+        <okhttp.version>3.14.9</okhttp.version>
+        <guava.version>23.0</guava.version>
+        <lombok.version>1.18.20</lombok.version>
+        <knife4j.version>2.0.9</knife4j.version>
+        <afterburner.version>2.12.0</afterburner.version>
+        <jsr310.version>2.13.4</jsr310.version>
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
     </properties>
-	
+
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
@@ -170,10 +181,91 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-admin</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 常用工具类 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <!-- tika -->
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>${tika-core.version}</version>
+            </dependency>
+
+            <!-- okhttp -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- afterburner -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-afterburner</artifactId>
+                <version>${afterburner.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jsr310.version}</version>
+            </dependency>
+
+            <!-- mybatis plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
+        <module>laien-demo</module>
         <module>ruoyi-admin</module>
         <module>ruoyi-framework</module>
         <module>ruoyi-system</module>

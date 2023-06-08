@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.ResponseResult;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.StringUtils;
@@ -39,10 +40,10 @@ public class SysDeptController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @GetMapping("/list")
-    public AjaxResult list(SysDept dept)
+    public ResponseResult list(SysDept dept)
     {
         List<SysDept> depts = deptService.selectDeptList(dept);
-        return success(depts);
+        return succ(depts);
     }
 
     /**
@@ -50,11 +51,11 @@ public class SysDeptController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @GetMapping("/list/exclude/{deptId}")
-    public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
+    public ResponseResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
     {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
         depts.removeIf(d -> d.getDeptId().intValue() == deptId || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
-        return success(depts);
+        return succ(depts);
     }
 
     /**
@@ -62,10 +63,10 @@ public class SysDeptController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:dept:query')")
     @GetMapping(value = "/{deptId}")
-    public AjaxResult getInfo(@PathVariable Long deptId)
+    public ResponseResult getInfo(@PathVariable Long deptId)
     {
         deptService.checkDeptDataScope(deptId);
-        return success(deptService.selectDeptById(deptId));
+        return succ(deptService.selectDeptById(deptId));
     }
 
     /**
@@ -74,7 +75,7 @@ public class SysDeptController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dept:add')")
     @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysDept dept)
+    public ResponseResult add(@Validated @RequestBody SysDept dept)
     {
         if (!deptService.checkDeptNameUnique(dept))
         {
@@ -90,7 +91,7 @@ public class SysDeptController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dept:edit')")
     @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysDept dept)
+    public ResponseResult edit(@Validated @RequestBody SysDept dept)
     {
         Long deptId = dept.getDeptId();
         deptService.checkDeptDataScope(deptId);
@@ -116,7 +117,7 @@ public class SysDeptController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dept:remove')")
     @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{deptId}")
-    public AjaxResult remove(@PathVariable Long deptId)
+    public ResponseResult remove(@PathVariable Long deptId)
     {
         if (deptService.hasChildByDeptId(deptId))
         {

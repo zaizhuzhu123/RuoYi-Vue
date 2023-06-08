@@ -1,4 +1,4 @@
-package com.ruoyi.web.core.config;
+package com.laien.demo.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
